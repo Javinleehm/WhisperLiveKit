@@ -65,20 +65,25 @@ class HypothesisBuffer:
         while self.new:
             current_new = self.new[0]
             if self.confidence_validation and current_new.probability and current_new.probability > 0.95:
+                # CONFIDENCE THRESHOLD OVERRIDE (DEFAULT IS 0.95)
+                # print("Bigger than 0.5")
                 committed.append(current_new)
                 self.last_committed_word = current_new.text
                 self.last_committed_time = current_new.end
                 self.new.pop(0)
                 self.buffer.pop(0) if self.buffer else None
             elif not self.buffer:
+                # print("no buffer")
                 break
             elif current_new.text == self.buffer[0].text:
+                # print("match")
                 committed.append(current_new)
                 self.last_committed_word = current_new.text
                 self.last_committed_time = current_new.end
                 self.buffer.pop(0)
                 self.new.pop(0)
             else:
+                # print("else")
                 break
         self.buffer = self.new
         self.new = []

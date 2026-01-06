@@ -147,8 +147,15 @@ def parse_args():
         "--backend",
         type=str,
         default="auto",
-        choices=["auto", "mlx-whisper", "faster-whisper", "whisper", "openai-api"],
-        help="Select the Whisper backend implementation (auto: prefer MLX on macOS, otherwise Faster-Whisper, else Whisper). Use 'openai-api' with --backend-policy localagreement to call OpenAI's API.",
+        choices=["auto", "mlx-whisper", "faster-whisper", "whisper", "openai-api", "whisper-cpp"],
+        help="Select the Whisper backend implementation (auto: prefer MLX on macOS, otherwise Faster-Whisper, else Whisper). Use 'openai-api' with --backend-policy localagreement to call OpenAI's API. Use 'whisper-cpp' to connect to a local whisper-cpp server.",
+    )
+    parser.add_argument(
+        "--whisper-cpp-url",
+        type=str,
+        default="http://localhost:8080",
+        dest="whisper_cpp_url",
+        help="URL of the whisper-cpp server (default: http://localhost:8080). Can also be set via WHISPER_CPP_URL environment variable.",
     )
     parser.add_argument(
         "--no-vac",

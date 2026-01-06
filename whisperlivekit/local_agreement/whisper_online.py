@@ -13,7 +13,7 @@ from whisperlivekit.backend_support import (faster_backend_available,
 from whisperlivekit.model_paths import detect_model_format, resolve_model_path
 from whisperlivekit.warmup import warmup_asr
 
-from .backends import FasterWhisperASR, MLXWhisper, OpenaiApiASR, WhisperASR
+from .backends import FasterWhisperASR, MLXWhisper, OpenaiApiASR, WhisperASR, WhisperCppASR
 
 logger = logging.getLogger(__name__)
 
@@ -84,6 +84,9 @@ def backend_factory(
             confidence_validation,
             warmup_file=None,
             min_chunk_size=None,
+            openai_api_base_url=None,
+            openai_api_key=None,
+            whisper_cpp_url=None,
         ):
     backend_choice = backend
     custom_reference = model_path or model_dir
@@ -103,7 +106,10 @@ def backend_factory(
             # Single file provided
             has_pytorch = True
 
-    if backend_choice == "openai-api":
+    if backend_choice == "whisper-cpp":
+        logger.debug("Using whisper-cpp server backend.")
+        asr = WhisperCppASR(lan=lan, endpoint_url=whisper_cpp_url)
+    elif backend_choice == "openai-api":
         logger.debug("Using OpenAI API.")
         asr = OpenaiApiASR(lan=lan)
     else:

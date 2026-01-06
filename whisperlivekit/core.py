@@ -126,6 +126,7 @@ class TranscriptionEngine:
                     "buffer_trimming": "segment",
                     "confidence_validation": False,
                     "buffer_trimming_sec": 15,
+                    "whisper_cpp_url": "http://localhost:8080",
                 }
                 whisperstreaming_params = update_with_kwargs(whisperstreaming_params, kwargs)
                 

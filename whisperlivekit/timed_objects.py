@@ -140,7 +140,7 @@ class Segment(TimedText):
             return cls(
                 start=start_token.start,
                 end=end_token.end,
-                text=''.join(token.text for token in tokens),
+                text=' '.join(token.text for token in tokens),  # Use space separator for proper word spacing
                 speaker=-1,
                 detected_language=start_token.detected_language
             )
